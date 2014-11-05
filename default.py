@@ -678,7 +678,7 @@ def getAuthDetails( details, url_format=True, prefix="&" ):
             return ""
     else:
         if token:
-            return {'X-Plex-Token' : token }
+            return {'X-Plex-Token' : token, 'X-Plex-Client-Identifier' : '0' }
         else:
             return {}
 
@@ -2257,7 +2257,7 @@ def monitorPlayback( id, server ):
         #If we are less than 95% completem, store resume time
         elif progress < 95:
             printDebug( "Movies played time: %s secs of %s @ %s%%" % ( currentTime, totalTime, progress) )
-            getURL("http://"+server+"/:/progress?key="+id+"&identifier=com.plexapp.plugins.library&time="+str(currentTime*1000),suppress=True)
+            getURL("http://"+server+"/:/timeline?ratingKey="+id+"&key="+id+"&state=playing&time="+str(currentTime*1000)+"&duration=999999999",suppress=True)
             complete=0
 
         #Otherwise, mark as watched
